@@ -1,0 +1,128 @@
+#### mac dev custom aliases #### {
+se(){
+	home=`pwd`
+	echo $home
+	echo "*****setenv cscope*****"
+	export CSCOPE_DB=$home/cscope.out
+	cd $home
+	export WORK_SPACE_HOME=$home
+	echo "*****setenv workspace: $WORK_SPACE_HOME*****"
+
+}
+
+setcscope(){
+	home=`pwd`
+	cd $home
+	echo $home
+	rm -f ./cscope.files
+	find $home -name '*.java' -o -name '*.h' > ./cscope.files
+	cscope -b -q -k
+}
+
+ffile() {
+	find . -name $1
+}
+
+cs() {
+	cscope -d
+}
+
+fvim() {
+	vim $(find . -name $1)
+}
+
+# Env aliases # {
+WORK_SPACE_HOME=$HOME/workspace
+TOOLS_HOME=$WORK_SPACE_HOME/tools
+
+vba(){
+	vim $TOOLS_HOME/bashrc_aliases
+}
+
+sba() {
+	source ~/.bash_profile
+}
+
+vimba() {
+	vim ~/.bash_profile
+}
+
+vimrc() {
+	vim $TOOLS_HOME/vimrc_alises
+}
+
+
+
+alias aa='cd ..'
+alias kk='cd $HOME'
+
+# Change the command prompt {
+
+# Function to display repository type based on current dir
+# '±' for git repo type
+# '☿' for Mercurial repo types
+# '○' for any other repositories
+function prompt_char {
+    git branch >/dev/null 2>/dev/null && echo '±' && return
+    hg root >/dev/null 2>/dev/null && echo '☿' && return
+    echo '○'
+}
+
+#PS1='[\u@\h :\W]\$ '
+alias shorten='PS1="$USER:local:\W$ "'
+sp() {
+		green=$(tput setaf 1)
+		blue=$(tput setaf 4)
+		bold=$(tput bold)
+		reset=$(tput sgr0)
+		export PS1='\[$green$bold\]local-pc\[$reset\]:\[$blue$bold\]\w\[$reset\]\n$(prompt_char) '
+}
+
+function collapse_pwd {
+    echo $(pwd | sed -e "s,^$HOME,~,")
+}
+
+# ZSH shell prompt change
+#alias sp='PS1="%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} 
+alias set_prompt='PS1="@ %{$fg[yellow]%}local-pc$reset_color%} in %{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} 
+$(prompt_char) "'
+# Change the command prompt }
+
+trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
+ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
+alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
+alias c='clear'                             # c:            Clear terminal display
+alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
+alias ..='cd ../'                           # Go back 1 directory level
+alias ...='cd ../../'                       # Go back 2 directory levels
+alias .3='cd ../../../'                     # Go back 3 directory levels
+alias .4='cd ../../../../'                  # Go back 4 directory levels
+alias .5='cd ../../../../../'               # Go back 5 directory levels
+alias .6='cd ../../../../../../'            # Go back 6 directory levels
+
+alias ls='ls -G'
+
+# Not to loose color scheme in tmux vim mode
+# Step 1
+alias tmux="TERM=screen-256color-bce tmux"
+# Step 2
+# And set up the default-terminal option in ~/.tmux.conf:
+#
+# set -g default-terminal "xterm"
+
+# iTerm2 shell integration
+source ~/.iterm2_shell_integration.bash
+
+# Env aliases # }
+
+# Git aliases # {
+
+alias gs='git status'
+alias gd='git diff'
+alias gdh='git diff HEAD'
+alias gdt='git difftool'
+alias glog='git log'
+
+# Git aliases # }
+
+#### mac dev custom aliases #### }
